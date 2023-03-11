@@ -13,8 +13,8 @@ const Home: NextPage = () => {
         <title>Create T3 App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="fixed flex min-h-screen w-full flex-col bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <div className="h-[35px]">Header</div>
+      <main className="fixed flex min-h-screen w-full flex-col bg-gradient-to-b from-[#1E2529] to-[#171D20]">
+        <div className="h-[35px] text-white font-bold flex items-center px-3">mechfeed</div>
         <div className="flex w-full flex-1">
           <div className="min-w-[100px]  bg-white">Filters</div>
           <div className="flex flex-1">
