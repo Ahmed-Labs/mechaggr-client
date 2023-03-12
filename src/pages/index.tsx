@@ -6,10 +6,21 @@ import { useState } from "react";
 
 import Listing from "../components/Listing";
 import ListingPreview from "~/components/ListingPreview";
+import ListingImages from "~/components/ListingImages";
+import { AiFillTag, AiFillDollarCircle } from "react-icons/ai";
+
+type postType = {
+  title: string;
+  author: string;
+  postType: string;
+  body: string;
+  dateCreated: Date;
+  url: string;
+};
 
 const Home: NextPage = () => {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
-  const [selectedListing, setSelectedListing] = useState(Object);
+  const [selectedListing, setSelectedListing] = useState<postType>(Object);
   const dummy = [
     {
       title:
@@ -38,6 +49,16 @@ const Home: NextPage = () => {
       body: "I built five Lily58 keyboards and I love them all, so I'm selling four of them and will keep the one remaining.\n\n[Timestamp](https://imgur.com/a/DMM2L1Q)\n\n**Similarities**\n\n* Case designed and 3D printed by yours truly\n* ProMicro with USB-C\n* Right half master\n* 128x32 OLED screen\n* 6 LEDs for underglow and per-key LEDs (all RGB)\n* Ergonomic knob for single-finger-operation\n* 2mm silicone sheet underneath the PCB for better sound dampening\n* Basics for magnetic tenting\n* Made with love <3\n\n&#x200B;\n\n**Differences**\n\n**Banana Yellow**\n\n* Ajazz Banana tactile switches\n* 3D-printed in Fillamentum PLA Extrafill Traffic Yellow\n* White OLED screens (instead of blue)\n* Price: 65€ + shipping\n\n**Kiwi Green**\n\n* Equalz Kiwi tactile switches\n* Lubed with G-Lube\n* 3D-printed in AmazonBasics translucent green PET-G\n* Price: 90€ + shipping\n\n**Mystic Blue**\n\n* Gazzew Boba silent tactile switches\n* Lubed with G-Lube\n* 3D-printed I'm Fillamentum PLA Extrafill Wizard's Voodoo\n* Price: 85€ + shipping\n\n**Tangerine Orange**\n\n* Equalz Tangerine linear switches\n* Lubed with G-Lube\n* 3D-printed in Fillamentum PLA Extrafill Luminous Orange\n* Price: 90€ + shipping\n\n**Ivory Ice**\n\n* ZealPC Tealios Aqua linear switches\n* Lubed with Krytox GPL 205 G00\n* 3D-printed with Fillamentum ASA Extrafill Natural\n* Price: 110€ + shipping\n\n&#x200B;\n\n**Further notes**\n\nThis is my first sale here on mechmarket, but I have a few transactions on r/watchexchange if that helps :)\n\nI designed the case with removable tenting legs in mind. But I found myself not using them, so I didn't really follow the path.    \nHowever, we can discuss this topic if you're interested.\n\nThe TRRS cable required to run these is not included.\n\nAnd of course:    \nIt's a DIY project, so no warranty. You gotta know your way - hardware and software.\n\nIf a keyboard is sold, I'll ~~strikethrough~~.\n\nThanks and have a nice weekend!",
       dateCreated: new Date(),
       url: "https://www.reddit.com/r/mechmarket/comments/11o8wia/eude_h_45_lily58_split_keyboards_w_paypal_local/",
+    },
+    {
+      _id: { $oid: "640d6f935b8e537c3946dd7b" },
+      title:
+        "[US-CA] [H] Rama Wilba Thermal+ (kuro/black and soya/e-beige) [W] PayPal",
+      author: "flashcats",
+      postType: "Selling",
+      body: "Timestamp: \n\nhttps://imgur.com/a/jLoEBBU\n\nI'm selling the following:\n\n\n\nName | Price | Comments\n---|---|----\nRama Wilba Thermal+ (KURO) | $455 | Hotswap PCB; new and sealed in box.\nRama Wilba Thermal+ (SOYA) | $510 | Hotswap PCB; new and sealed in box.\n\n\nAll prices include shipping CONUS, but happy to ship internationally if you pay for the difference.\n\nI'll provide a small discount for the cost of shipping if you pick up local from 90293.",
+      dateCreated: new Date(),
+      url: "https://www.reddit.com/r/mechmarket/comments/11p7bua/usca_h_rama_wilba_thermal_kuroblack_and/",
     },
     {
       title:
@@ -75,24 +96,26 @@ const Home: NextPage = () => {
       </Head>
       <main className="fixed flex h-screen w-full flex-col bg-gradient-to-b from-[#1E2529] to-[#171D20] text-white">
         {/* Header */}
-        <a
-          href="/"
-          className="flex min-h-[35px] items-center px-3 font-bold text-white"
-        >
-          mechfeed
-        </a>
+        <div className="flex min-h-[45px] items-center border px-3">
+          <a href="/" className=" font-bold text-white">
+            mechfeed
+          </a>
+        </div>
         {/* Main content */}
         <div className="flex min-h-0 w-full flex-1">
           {/* Filters */}
-          <div className="min-w-[100px] border border-white">Filters</div>
+          <div className="min-w-[100px] border-x">Filters</div>
           {/* Listing area */}
           <div className="flex h-full flex-1">
             {/* Buying / Selling Listings and searchbar */}
             {/* <div className="min-h-[50px] border border-white">Search Bar</div> */}
             <div className="flex w-1/2">
               <div className="flex w-1/2 flex-col">
-                <div className="border border-white p-3">Buying</div>
-                <div className="overflow-y-scroll border">
+                <div className="flex items-center border-b p-3">
+                  <AiFillDollarCircle />
+                  <span className="mx-2">Buying</span>
+                </div>
+                <div className="overflow-y-scroll border-r">
                   {dummy.map((post) => {
                     return (
                       <Listing post={post} handleClick={setSelectedListing} />
@@ -101,8 +124,11 @@ const Home: NextPage = () => {
                 </div>
               </div>
               <div className="flex w-1/2 flex-col">
-                <div className="border border-white p-3">Selling</div>
-                <div className="overflow-y-scroll border">
+                <div className="flex items-center border-l border-b p-3">
+                  <AiFillTag />
+                  <span className="mx-2">Selling / Trading</span>
+                </div>
+                <div className="overflow-y-scroll ">
                   {dummy.map((post) => {
                     return (
                       <Listing post={post} handleClick={setSelectedListing} />
@@ -113,7 +139,7 @@ const Home: NextPage = () => {
             </div>
             {/* Selected Listing Info + Image Preview */}
             <div className="flex w-1/2 flex-col">
-              <div className="flex h-1/2 items-center justify-center border border-yellow-100">
+              <div className="flex h-1/2 items-center justify-center border-x border-b bg-[#13181b]">
                 {Object.keys(selectedListing).length === 0 &&
                 selectedListing.constructor === Object ? (
                   <div>Select a listing to view it in detail</div>
@@ -121,15 +147,14 @@ const Home: NextPage = () => {
                   <ListingPreview post={selectedListing} />
                 )}
               </div>
-              <div className="flex h-1/2 items-center justify-center border border-red-100">
-                Image Previews Here (Map all images from all image links found
-                in post)
+              <div className="flex h-1/2 w-full items-center justify-center border-x">
+                <ListingImages ListingBody={selectedListing.body} />
               </div>
             </div>
           </div>
         </div>
         {/* Footer */}
-        <div className="z-50 flex min-h-[35px]">
+        <div className="z-50 flex min-h-[35px] border">
           <div className="flex items-center">
             <span className="relative mx-3 flex h-3 w-3">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
