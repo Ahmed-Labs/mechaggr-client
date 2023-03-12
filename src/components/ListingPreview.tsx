@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { BiLinkExternal } from "react-icons/bi";
+import { AiFillRedditCircle } from "react-icons/ai";
 import { ReactNode } from "react";
 type postType = {
   title: string;
@@ -20,9 +21,13 @@ const ListingPreview: NextPage<listingProps> = ({ post }) => {
   return (
     <div className="flex h-full w-full flex-col">
       <div className="flex items-center bg-[#273137] px-4 py-2 font-bold">
+        <span className="text-[#FF5700] bg-white rounded-lg mr-3"><AiFillRedditCircle size={35} /></span>
         <div>
-          <h1>MechMarket</h1>
-          <a target="_blank" href={`https://www.reddit.com/user/${post.author}`}>
+          <h1>r/MechMarket</h1>
+          <a
+            target="_blank"
+            href={`https://www.reddit.com/user/${post.author}`}
+          >
             u/{post.author}
           </a>
         </div>
