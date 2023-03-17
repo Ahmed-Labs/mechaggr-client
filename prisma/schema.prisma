@@ -19,3 +19,11 @@ model Post {
     dateCreated DateTime
     url         String
 }
+
+model DiscordMessage {
+    id          String @id @default(auto()) @map("_id") @db.ObjectId
+    content     String
+    author      String
+    postType    String
+    dateCreated String
+}
