@@ -19,7 +19,7 @@ const Listing: NextPage<listingProps> = ({ post, handleClick }) => {
   return (
     <div
       onClick={() => handleClick(post)}
-      className="cursor-pointer border-b border-gray-500 py-4 px-4 hover:bg-[#13181b]"
+      className="cursor-pointer border-b border-gray-500 py-4 px-4 hover:bg-[#0000004e]"
     >
       <div className="flex">
         <h1 className="font-bold">r/Mechmarket</h1>

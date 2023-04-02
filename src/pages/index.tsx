@@ -56,25 +56,25 @@ const Home: NextPage = () => {
         <title>mechfeed</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="fixed flex h-screen w-full flex-col bg-gradient-to-b from-[#1E2529] to-[#171D20] text-white">
+      <main className="fixed flex h-screen w-full flex-col bg-gradient-to-b bg-[#121221] text-white">
         {/* Header */}
-        <div className="flex min-h-[45px] items-center justify-center border border-[#4c5761] px-3">
+        <div className="flex min-h-[45px] items-center justify-center border border-[#88888857] bg-[#30303026] px-2">
           <a href="/" className="mr-auto pl-3 font-bold text-white">
             mechfeed
           </a>
-          <div className="my-2 mr-auto flex items-center border border-[#4c5761] bg-[#121618] py-2">
+          <div className="my-2 mr-auto flex items-center border border-[#92929257] bg-[#00000075] py-2">
             <span className="px-3">
               <AiOutlineSearch />
             </span>
             <input
-              className="min-w-[300px] bg-[#121618] outline-none"
+              className="min-w-[300px] bg-[#00000000] outline-none"
               type="text"
               placeholder="Search listings"
             />
           </div>
-          <div className="flex items-center bg-[#a2b6c8] px-3 py-2 font-semibold text-black">
+          <div className="flex items-center rounded border border-[#41414157] bg-[#6a6a6a57] px-3 py-2 font-bold text-[#ffffffd3]">
             <AiFillBell size={23} />
-            <span className="ml-2">Alerts</span>
+            <span className="ml-1">Alerts</span>
           </div>
         </div>
         {/* Main content */}
@@ -87,7 +87,7 @@ const Home: NextPage = () => {
             {/* <div className="min-h-[50px] border border-white">Search Bar</div> */}
             <div className="flex w-1/2">
               <div className="flex w-1/2 flex-col">
-                <div className="flex items-center border-l border-b border-[#4c5761] p-3">
+                <div className="flex items-center border-l border-b border-[#41414157] p-3">
                   <AiFillDollarCircle />
                   <span className="mx-2">Buying</span>
                   <div className="ml-auto" role="status">
@@ -110,7 +110,7 @@ const Home: NextPage = () => {
                     <span className="sr-only">Loading...</span>
                   </div>
                 </div>
-                <div className="h-full overflow-y-scroll border-x border-[#4c5761]">
+                <div className="h-full overflow-y-scroll border-x border-[#41414157]">
                   {buying?.map((post) => {
                     return (
                       <Listing post={post} handleClick={setSelectedListing} />
@@ -119,7 +119,7 @@ const Home: NextPage = () => {
                 </div>
               </div>
               <div className="flex w-1/2 flex-col">
-                <div className="flex items-center border-l border-b border-[#4c5761] p-3">
+                <div className="flex items-center border-l border-b border-[#41414157] p-3">
                   <AiFillTag />
                   <span className="mx-2">Selling / Trading</span>
                   <div className="ml-auto" role="status">
@@ -153,7 +153,7 @@ const Home: NextPage = () => {
             </div>
             {/* Selected Listing Info + Image Preview */}
             <div className="flex w-1/2 flex-col">
-              <div className="flex h-1/2 items-center justify-center border-x border-b border-[#4c5761] bg-[#13181b]">
+              <div className="flex h-1/2 items-center justify-center border-x border-b border-[#41414157] bg-[#00000000]">
                 {Object.keys(selectedListing).length === 0 &&
                 selectedListing.constructor === Object ? (
                   <div>Select a listing to view it in detail</div>
@@ -161,14 +161,14 @@ const Home: NextPage = () => {
                   <ListingPreview post={selectedListing} />
                 )}
               </div>
-              <div className="flex h-1/2 w-full items-center justify-center border-x border-[#4c5761]">
+              <div className="flex h-1/2 w-full items-center justify-center border-x border-[#41414157]">
                 <ListingImages ListingBody={selectedListing.body} />
               </div>
             </div>
           </div>
         </div>
         {/* Footer */}
-        <div className="z-50 flex min-h-[35px] border border-[#4c5761]">
+        <div className="z-50 flex min-h-[35px] border border-[#41414157]">
           <div className="flex items-center mr-3">
             <span className="relative mx-3 flex h-3 w-3">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
@@ -178,7 +178,7 @@ const Home: NextPage = () => {
               LIVE DATA ACTIVE
             </span>
           </div>
-          <div className="flex gap-3 items-center border-x border-[#4c5761] px-2">
+          <div className="flex gap-3 items-center border-x border-[#41414157] px-2">
             <BsDiscord />
             <AiFillRedditCircle />
           </div>

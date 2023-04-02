@@ -20,7 +20,7 @@ type listingProps = {
 const ListingPreview: NextPage<listingProps> = ({ post }) => {
   return (
     <div className="flex h-full w-full flex-col">
-      <div className="flex items-center bg-[#273137] px-4 py-2 font-bold">
+      <div className="flex items-center bg-[#0000005b] px-4 py-2 font-bold">
         <span className="text-[#FF5700] bg-white rounded-lg mr-3"><AiFillRedditCircle size={35} /></span>
         <div>
           <h1>r/MechMarket</h1>
