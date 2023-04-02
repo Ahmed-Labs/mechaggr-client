@@ -6,7 +6,7 @@ export function getTimeAgoString(date: Date): string {
     { label: "d", seconds: 86400 },
     { label: "hr", seconds: 3600 },
     { label: "min", seconds: 60 },
-    { label: "s", seconds: 1 },
+    { label: "sec", seconds: 1 },
   ];
 
   for (let i = 0; i < intervals.length; i++) {
