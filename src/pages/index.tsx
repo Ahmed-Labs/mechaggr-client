@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { api } from "~/utils/api";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Listing from "../components/Listing";
 import ListingPreview from "~/components/ListingPreview";
@@ -16,6 +16,7 @@ import {
   AiFillBell,
 } from "react-icons/ai";
 import { BsDiscord } from "react-icons/bs";
+import { getTimeAgoString } from "~/utils/util";
 
 type postType = {
   title: string;
@@ -27,11 +28,38 @@ type postType = {
 };
 
 const Home: NextPage = () => {
-  const redditPosts: postType[] | undefined = api.redditPost.getAll
-    .useQuery()
-    .data?.slice(0, 100);
-  console.log(redditPosts);
+  const { data, isLoading } = useRedditPosts();
   const [selectedListing, setSelectedListing] = useState<postType>(Object);
+  const [lastFetched, setLastFetched] = useState(new Date());
+  const [lastFetchedString, setLastFetchedString] = useState(
+    getTimeAgoString(lastFetched)
+  );
+  setInterval(() => {
+    setLastFetchedString;
+  }, 1000);
+  const redditPosts = data;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLastFetchedString(getTimeAgoString(lastFetched));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [lastFetched]);
+
+  function useRedditPosts() {
+    const { data, isLoading, refetch } = api.redditPost.getAll.useQuery();
+
+    useEffect(() => {
+      const interval = setInterval(() => {
+        refetch();
+        setLastFetched(new Date());
+      }, 60000);
+      return () => clearInterval(interval);
+    }, [refetch]);
+
+    return { data, isLoading };
+  }
 
   function partitionListings(array: postType[] | undefined) {
     const res: [postType[], postType[]] = [[], []];
@@ -50,13 +78,14 @@ const Home: NextPage = () => {
   }
 
   const [buying, selling] = partitionListings(redditPosts);
+
   return (
     <>
       <Head>
         <title>mechfeed</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="fixed flex h-screen w-full flex-col bg-gradient-to-b bg-[#121221] text-white">
+      <main className="fixed flex h-screen w-full flex-col bg-[#121221] bg-gradient-to-b text-white">
         {/* Header */}
         <div className="flex min-h-[45px] items-center justify-center border border-[#88888857] bg-[#30303026] px-2">
           <a href="/" className="mr-auto pl-3 font-bold text-white">
@@ -110,10 +139,14 @@ const Home: NextPage = () => {
                     <span className="sr-only">Loading...</span>
                   </div>
                 </div>
-                <div className="h-full overflow-y-scroll border-x border-[#41414157]">
+                <div className="h-full overflow-x-hidden overflow-y-scroll border-x border-[#41414157]">
                   {buying?.map((post) => {
                     return (
-                      <Listing post={post} handleClick={setSelectedListing} />
+                      <Listing
+                        post={post}
+                        isSelected={post == selectedListing}
+                        handleClick={setSelectedListing}
+                      />
                     );
                   })}
                 </div>
@@ -142,10 +175,14 @@ const Home: NextPage = () => {
                     <span className="sr-only">Loading...</span>
                   </div>
                 </div>
-                <div className="h-full overflow-y-scroll">
+                <div className="h-full overflow-x-hidden overflow-y-scroll">
                   {selling?.map((post) => {
                     return (
-                      <Listing post={post} handleClick={setSelectedListing} />
+                      <Listing
+                        post={post}
+                        isSelected={post == selectedListing}
+                        handleClick={setSelectedListing}
+                      />
                     );
                   })}
                 </div>
@@ -169,7 +206,7 @@ const Home: NextPage = () => {
         </div>
         {/* Footer */}
         <div className="z-50 flex min-h-[35px] border border-[#41414157]">
-          <div className="flex items-center mr-3">
+          <div className="mr-3 flex items-center">
             <span className="relative mx-3 flex h-3 w-3">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
               <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500"></span>
@@ -178,14 +215,26 @@ const Home: NextPage = () => {
               LIVE DATA ACTIVE
             </span>
           </div>
-          <div className="flex gap-3 items-center border-x border-[#41414157] px-2">
+          <div className="flex items-center gap-3 border-x border-[#41414157] px-2">
             <BsDiscord />
             <AiFillRedditCircle />
+          </div>
+          <div className="ml-2 flex items-center border-l border-[#41414157] text-[#ffffffc8]">
+            {lastFetchedString}
           </div>
         </div>
       </main>
     </>
   );
 };
+
+// export async function getStaticProps() {
+//   const redditPosts: postType[] | undefined = api.redditPost.getAll.useQuery().data;
+
+//   return {
+//     props: { redditPosts },
+//     revalidate: 60,
+//   };
+// }
 
 export default Home;
