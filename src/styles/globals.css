@@ -6,7 +6,6 @@
 ::-webkit-scrollbar {
   width: 8px;
   background-color: rgba(139, 139, 139, 0.277);
-  -webkit-border-radius: 100px;
 }
 
 /* ::-webkit-scrollbar:hover {
