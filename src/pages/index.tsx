@@ -15,10 +15,14 @@ import {
   AiOutlineSearch,
   AiFillBell,
 } from "react-icons/ai";
-import { BsDiscord } from "react-icons/bs";
+import { BsDiscord, BsArrow90DegRight } from "react-icons/bs";
 import { getTimeAgoString } from "~/utils/util";
+import Modal from "~/components/Modal";
+import OnBoarding from "~/components/OnBoarding";
+import Alerts from "~/components/Alerts";
 
 type postType = {
+  id: string;
   title: string;
   author: string;
   postType: string;
@@ -29,11 +33,28 @@ type postType = {
 
 const Home: NextPage = () => {
   const { data, isLoading } = useRedditPosts();
-  const [selectedListing, setSelectedListing] = useState<postType>(Object);
+  const [selectedListing, setSelectedListing] = useState<postType | null>(null);
   const [lastFetched, setLastFetched] = useState(new Date());
   const [lastFetchedString, setLastFetchedString] = useState(
     getTimeAgoString(lastFetched)
   );
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showAlerts, setShowAlerts] = useState(false);
+
+  useEffect(() => {
+    // Get userID
+    console.log("entered");
+    
+    const userId = localStorage.getItem("userId");
+    console.log(userId);
+    
+    // If no userId yet, show onboarding modal and create userId
+    if (!userId) {
+      setShowOnboarding(true);
+    }
+    console.log(showOnboarding);
+  }, [showOnboarding]);
+
   setInterval(() => {
     setLastFetchedString;
   }, 1000);
@@ -81,13 +102,17 @@ const Home: NextPage = () => {
 
   return (
     <>
+      <Modal isOpen={showOnboarding}>
+        <OnBoarding onClose={() => setShowOnboarding(false)}/>
+      </Modal>
       <Head>
         <title>mechfeed</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="fixed flex h-screen w-full flex-col bg-[#121221] bg-gradient-to-b text-white">
+      <main className="fixed flex h-screen w-full flex-col bg-[#2c2c54] bg-gradient-to-b text-white">
         {/* Header */}
-        <div className="flex min-h-[45px] items-center justify-center border border-[#88888857] bg-[#30303026] px-2">
+        <div className="flex min-h-[45px] items-center justify-center border border-[#88888857]  px-2">
+          {/* bg-[#00000026] */}
           <a href="/" className="mr-auto pl-3 font-bold text-white">
             mechfeed
           </a>
@@ -101,9 +126,8 @@ const Home: NextPage = () => {
               placeholder="Search listings"
             />
           </div>
-          <div className="flex items-center rounded border border-[#41414157] bg-[#6a6a6a57] px-3 py-2 font-bold text-[#ffffffd3]">
+          <div onClick={()=>setShowAlerts(true)} className="cursor-pointer flex items-center rounded bg-[#ffffff56] transition duration-150 ease-in-out hover:bg-[#c1c1c156] px-3 py-2 font-bold text-[#fffffff7]">
             <AiFillBell size={23} />
-            <span className="ml-1">Alerts</span>
           </div>
         </div>
         {/* Main content */}
@@ -116,7 +140,7 @@ const Home: NextPage = () => {
             {/* <div className="min-h-[50px] border border-white">Search Bar</div> */}
             <div className="flex w-1/2">
               <div className="flex w-1/2 flex-col">
-                <div className="flex items-center border-l border-b border-[#41414157] p-3">
+                <div className="flex items-center border-l border-b border-[#88888857] p-3">
                   <AiFillDollarCircle />
                   <span className="mx-2">Buying</span>
                   <div className="ml-auto" role="status">
@@ -139,12 +163,12 @@ const Home: NextPage = () => {
                     <span className="sr-only">Loading...</span>
                   </div>
                 </div>
-                <div className="h-full overflow-x-hidden overflow-y-scroll border-x border-[#41414157]">
+                <div className="h-full overflow-x-hidden overflow-y-scroll border-x border-[#88888857]">
                   {buying?.map((post) => {
                     return (
                       <Listing
                         post={post}
-                        isSelected={post == selectedListing}
+                        isSelected={post.id == selectedListing?.id}
                         handleClick={setSelectedListing}
                       />
                     );
@@ -152,7 +176,7 @@ const Home: NextPage = () => {
                 </div>
               </div>
               <div className="flex w-1/2 flex-col">
-                <div className="flex items-center border-l border-b border-[#41414157] p-3">
+                <div className="flex items-center border-l border-b border-[#88888857] p-3">
                   <AiFillTag />
                   <span className="mx-2">Selling / Trading</span>
                   <div className="ml-auto" role="status">
@@ -180,7 +204,7 @@ const Home: NextPage = () => {
                     return (
                       <Listing
                         post={post}
-                        isSelected={post == selectedListing}
+                        isSelected={post.id == selectedListing?.id}
                         handleClick={setSelectedListing}
                       />
                     );
@@ -190,22 +214,23 @@ const Home: NextPage = () => {
             </div>
             {/* Selected Listing Info + Image Preview */}
             <div className="flex w-1/2 flex-col">
-              <div className="flex h-1/2 items-center justify-center border-x border-b border-[#41414157] bg-[#00000000]">
-                {Object.keys(selectedListing).length === 0 &&
-                selectedListing.constructor === Object ? (
-                  <div>Select a listing to view it in detail</div>
-                ) : (
+              <div className="flex h-1/2 items-center justify-center border-x border-b border-[#88888857] bg-[#00000000]">
+                {selectedListing ? (
                   <ListingPreview post={selectedListing} />
+                ) : (
+                  <div>Select a listing to view it in detail</div>
                 )}
               </div>
-              <div className="flex h-1/2 w-full items-center justify-center border-x border-[#41414157]">
-                <ListingImages ListingBody={selectedListing.body} />
+              <div className="flex h-1/2 w-full items-center justify-center border-x border-[#88888857]">
+                {selectedListing && (
+                  <ListingImages ListingBody={selectedListing.body} />
+                )}
               </div>
             </div>
           </div>
         </div>
         {/* Footer */}
-        <div className="z-50 flex min-h-[35px] border border-[#41414157]">
+        <div className="z-50 flex min-h-[35px] border border-[#88888857]">
           <div className="mr-3 flex items-center">
             <span className="relative mx-3 flex h-3 w-3">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
@@ -215,26 +240,22 @@ const Home: NextPage = () => {
               LIVE DATA ACTIVE
             </span>
           </div>
-          <div className="flex items-center gap-3 border-x border-[#41414157] px-2">
+          <div className="flex items-center gap-3 border-x border-[#88888857] px-4 ">
             <BsDiscord />
             <AiFillRedditCircle />
           </div>
-          <div className="ml-2 flex items-center border-l border-[#41414157] text-[#ffffffc8]">
+          <div className="flex items-center px-4 text-[#ffffffc8]">
             {lastFetchedString}
           </div>
         </div>
+        {/* Alerts */}
+        <Modal isOpen={showAlerts}>
+          <Alerts onClose={()=>setShowAlerts(false)}/>
+        </Modal>
       </main>
     </>
   );
 };
 
-// export async function getStaticProps() {
-//   const redditPosts: postType[] | undefined = api.redditPost.getAll.useQuery().data;
-
-//   return {
-//     props: { redditPosts },
-//     revalidate: 60,
-//   };
-// }
 
 export default Home;
