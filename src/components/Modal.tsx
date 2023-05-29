@@ -20,7 +20,7 @@ const Modal: React.FC<Props> = ({ isOpen, children }) => {
   }
 
   return ReactDOM.createPortal(
-    <div className="absolute inset-0 z-50 bg-[#000000a9] ">{children}</div>,
+    <div className="absolute inset-0 z-50 bg-[#13161b7c] ">{children}</div>,
     document.body
   );
 };
