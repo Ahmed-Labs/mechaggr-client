@@ -69,6 +69,7 @@ const ListingImages: NextPage<ListingImagesProps> = ({ ListingBody }) => {
             alt={`Image preview ${idx}`}
             width={image.width}
             height={image.height}
+            priority={true} 
           />
         </div>
       ))}
