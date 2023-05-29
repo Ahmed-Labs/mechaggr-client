@@ -27,6 +27,7 @@ const ListingPreview: NextPage<listingProps> = ({ post }) => {
           <a
             target="_blank"
             href={`https://www.reddit.com/user/${post.author}`}
+            className="font-normal text-[#ffffffa6]"
           >
             u/{post.author}
           </a>
