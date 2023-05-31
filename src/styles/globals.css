@@ -5,7 +5,7 @@
 
 ::-webkit-scrollbar {
   width: 8px;
-  background-color: rgba(139, 139, 139, 0.277);
+  background-color: rgba(255, 255, 255, 0.134);
 }
 
 /* ::-webkit-scrollbar:hover {
@@ -13,9 +13,9 @@
 } */
 
 ::-webkit-scrollbar-thumb:vertical {
-  background: rgba(192, 191, 191, 0.9);
+  background: #8899A6;
 }
 ::-webkit-scrollbar-thumb:vertical:active {
-  background: rgba(192, 191, 191, 0.9); 
+  background: #abbcc9; 
 }
 

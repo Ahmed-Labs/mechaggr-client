@@ -23,8 +23,8 @@ const Listing: NextPage<listingProps> = ({ post, isSelected, handleClick }) => {
     <div
       onClick={() => handleClick(post)}
       className={`${
-        isSelected ? "bg-[#161B22]" : ""
-      } cursor-pointer border-b border-[#ffffff36] py-4 px-4 transition delay-75 ease-in-out hover:bg-[#161B22]`}
+        isSelected ? "bg-[#192734]" : ""
+      } cursor-pointer border-b border-[#ffffff36] py-4 px-4 transition delay-75 ease-in-out hover:bg-[#192734]`}
     >
       <div className="mb-2 flex items-center">
         <h1 className="font-bold">r/Mechmarket</h1>
